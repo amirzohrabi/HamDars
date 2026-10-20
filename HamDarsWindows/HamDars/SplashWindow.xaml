@@ -1,0 +1,115 @@
+<Window x:Class="HamDars.SplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="هم‌درس" Width="1000" Height="700"
+        WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
+        Background="Transparent" WindowState="Maximized" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" Topmost="True" ShowActivated="True"
+        PreviewKeyDown="SplashWindow_PreviewKeyDown">
+    <Window.Resources>
+        <CubicEase x:Key="OpeningEase" EasingMode="EaseInOut" />
+        <SineEase x:Key="SoftEase" EasingMode="EaseInOut" />
+    </Window.Resources>
+    <Grid x:Name="SplashRoot" ClipToBounds="True" Background="Transparent">
+        <!-- Full-screen dark veil. It fades away to reveal the live WPF application. -->
+        <Grid x:Name="Backdrop" Background="#070B2A" Opacity="1">
+            <Ellipse Width="650" Height="650" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Opacity="0.8">
+                <Ellipse.Fill>
+                    <RadialGradientBrush GradientOrigin="0.5,0.5">
+                        <GradientStop Color="#3E4EFF" Offset="0" />
+                        <GradientStop Color="#2434A8" Offset="0.34" />
+                        <GradientStop Color="#10173F" Offset="0.7" />
+                        <GradientStop Color="#00070E" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse Width="830" Height="830" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#233FBD" StrokeThickness="1.2" Opacity="0.45" />
+            <Ellipse Width="920" Height="920" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#7D69FF" StrokeThickness="1" Opacity="0.16" />
+        </Grid>
+
+        <!-- Two neon curtains, animated away from the center. -->
+        <Grid x:Name="CurtainLayer" IsHitTestVisible="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border x:Name="LeftCurtain" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#7DCEFF">
+                <Border.RenderTransform><TranslateTransform x:Name="LeftCurtainMove" X="0" /></Border.RenderTransform>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#151B63" Offset="0" />
+                        <GradientStop Color="#5957D8" Offset="0.48" />
+                        <GradientStop Color="#8186FF" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Ellipse Width="520" Height="520" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-210,-210,0,0" Fill="#5C91FF" Opacity="0.23" />
+                    <Ellipse Width="440" Height="440" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-180,0,0,-240" Stroke="#9D8BFF" StrokeThickness="2" Opacity="0.65" />
+                    <Rectangle Width="4" HorizontalAlignment="Right" Fill="#ACEEFF" Opacity="0.65">
+                        <Rectangle.Effect><DropShadowEffect Color="#72D8FF" BlurRadius="24" ShadowDepth="0" Opacity="0.8" /></Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+            </Border>
+            <Border x:Name="RightCurtain" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="#A5A1FF">
+                <Border.RenderTransform><TranslateTransform x:Name="RightCurtainMove" X="0" /></Border.RenderTransform>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                        <GradientStop Color="#6F7FFF" Offset="0" />
+                        <GradientStop Color="#3F3AA8" Offset="0.5" />
+                        <GradientStop Color="#111A43" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Ellipse Width="550" Height="550" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-235,-240,0" Fill="#777DFF" Opacity="0.18" />
+                    <Ellipse Width="470" Height="470" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-190,-245" Stroke="#75BFFF" StrokeThickness="2" Opacity="0.62" />
+                    <Rectangle Width="4" HorizontalAlignment="Left" Fill="#CFB0FF" Opacity="0.62">
+                        <Rectangle.Effect><DropShadowEffect Color="#9C6EFF" BlurRadius="26" ShadowDepth="0" Opacity="0.85" /></Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- The generated original lockup is kept intact. -->
+        <StackPanel x:Name="LogoStage" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Opacity="0.0" Panel.ZIndex="10">
+            <Image x:Name="LogoImage" Source="pack://application:,,,/HamDars;component/Assets/HamDars_Logo.png"
+                   Width="410" Height="410" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"
+                   RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="LogoScale" ScaleX="0.82" ScaleY="0.82" />
+                        <TranslateTransform x:Name="LogoOffset" Y="16" />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </StackPanel>
+
+        <!-- A soft cyan-violet sheen passes across the logo once. -->
+        <Rectangle x:Name="LightSweep" Width="210" HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                   IsHitTestVisible="False" Opacity="0" Panel.ZIndex="11">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#00FFFFFF" Offset="0" />
+                    <GradientStop Color="#30AEEBFF" Offset="0.28" />
+                    <GradientStop Color="#B0F9FFFF" Offset="0.5" />
+                    <GradientStop Color="#4299A5FF" Offset="0.72" />
+                    <GradientStop Color="#00FFFFFF" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+            <Rectangle.RenderTransform><TranslateTransform x:Name="LightSweepMove" X="-300" /></Rectangle.RenderTransform>
+        </Rectangle>
+
+        <Button x:Name="SkipButton" Content="رد کردن انیمیشن  ·  Esc" Click="SkipButton_Click"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,26"
+                Padding="16,9" Background="#44212D64" Foreground="#E9EAFF"
+                BorderBrush="#6B77D8" BorderThickness="1" FontSize="11" Cursor="Hand" Panel.ZIndex="20">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="18" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
